@@ -9,10 +9,10 @@ namespace GraphQLServer.GraphQL.Publications
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Publication> RetrievePublications([Service] BlogContext _context) => _context.Publications;
+        public IQueryable<Publication> RetrievePublications(BlogContext _context) => _context.Publications;
 
         [UseFirstOrDefault]
         [UseProjection]
-        public IQueryable<Publication> GetPublicationById([Service] BlogContext _context, int id) => _context.Publications.Where(p => p.Id == id);
+        public IQueryable<Publication> GetPublicationById(BlogContext _context, int id) => _context.Publications.Where(p => p.Id == id);
     }
 }
