@@ -10,7 +10,7 @@ public class BlogContextSeed
         {
             await context.Database.OpenConnectionAsync();
 
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Categoria ON");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Category ON");
             if (!context.Categories.Any())
             {
 
@@ -27,12 +27,11 @@ public class BlogContextSeed
                 await context.SaveChangesAsync();
 
             }
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Categoria OFF");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Category OFF");
 
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Autor ON");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Author ON");
             if (!context.Authors.Any())
             {
-
                 var autores = new List<Author>()
                 {
                     new Author(){ Id=1, Name="Javier",LastName="González",Email="javierglez@correo.com"},
@@ -44,10 +43,9 @@ public class BlogContextSeed
                 await context.SaveChangesAsync();
 
             }
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Autor OFF");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Author OFF");
 
-
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Publicacion ON");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Publication ON");
             if (!context.Publications.Any())
             {
 
@@ -90,7 +88,7 @@ public class BlogContextSeed
                 await context.Publications.AddRangeAsync(publicaciones);
                 await context.SaveChangesAsync();
             }
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Publicacion OFF");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT blog.Publication OFF");
 
             await context.Database.CloseConnectionAsync();
 

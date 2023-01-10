@@ -1,25 +1,33 @@
 using GraphQLServer.Data;
 using GraphQLServer.MethodExtensions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors();
 
+// Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// GraphQL configuration
+builder.Services.AddGraphQLServer()
+                .AddQueryType()
+                .AddGraphQLServerTypes()
+                .RegisterDbContext<BlogContext>()
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting();
+
 // DbContext configuration
-builder.Services.AddDbContext<BlogContext>(options => 
+builder.Services.AddDbContext<BlogContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BlogConnection"),
     x => x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "blog"))
 );
-
-// GraphQL configuration
-builder.Services.AddGraphQLServer();
 
 var app = builder.Build();
 
@@ -35,6 +43,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(c => c.AllowAnyHeader().WithMethods("POST").AllowAnyOrigin());
 
 app.MapGraphQL();
 
